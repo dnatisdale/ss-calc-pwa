@@ -60,6 +60,10 @@ Then in GitHub:
 - SSA child benefit eligibility: https://www.ssa.gov/faqs/en/questions/KA-02053.html
 - SSA child benefits publication: https://www.ssa.gov/pubs/EN-05-10085.pdf
 
+## Smartphone and sharing
+
+This version improves small-screen use for smartphones and adds a **Share App** button. On phones it opens the normal share sheet. On computers it copies the app link when browser sharing is not available.
+
 ## Current version
 
 v14 — improves the child-in-care wording so it clearly says the child belongs to the couple, uses entered names throughout the family explanation, hides spouse fields when single is selected, and makes example placeholders lighter with helper notes.
@@ -79,3 +83,15 @@ After clicking **Calculate**, use **Print Results** to print the estimate or **S
 - Clarified that Social Security calculations for the year begin with the month checks start, such as July through December.
 - Added next steps to the printable/downloadable summary, including asking SSA about a spouse child-in-care benefit for a child under 16.
 - Clarified spouse benefit vs child benefit fields so users do not accidentally double-count one SSA estimate.
+
+
+## Download Results filename
+
+The downloaded HTML estimate uses the primary Social Security worker's name plus the current date and time, for example `ss-calc-pwa-Dan-2026-05-04_17-30.html`.
+
+
+## v22 updates
+
+- Improved smartphone responsiveness with larger tap targets, single-column layouts, and full-width action buttons on small screens.
+- Added **Share App** button for sending the app link to friends.
+- Updated the service worker cache to v22.

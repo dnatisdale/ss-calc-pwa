@@ -17,6 +17,7 @@
     </div>
     <div class="header-actions">
       <button id="installBtn" class="secondary" type="button">Install App</button>
+      <button id="shareBtn" class="secondary" type="button">Share App</button>
       <button id="saveProgressBtn" class="secondary" type="button">Save Progress</button>
       <button id="loadProgressBtn" class="secondary" type="button">Load Saved</button>
       <button id="openAllBtn" class="secondary" type="button">Open all</button>
@@ -191,6 +192,8 @@
       <summary><span>Install + GitHub Help</span><span class="status ok">Included</span></summary>
       <h3>Install button</h3>
       <p>The <strong>Install App</strong> button is at the top-right. It works best after opening this project from <code>localhost</code> or GitHub Pages. It usually will not install correctly by double-clicking <code>index.html</code>.</p>
+      <h3>Share button</h3>
+      <p>The <strong>Share App</strong> button lets you send the app link to friends. On smartphones it opens the normal phone share sheet. On laptops it copies the app link when browser sharing is not available.</p>
       <h3>Test locally</h3>
       <pre><code>cd C:\GitHub\ss-calc-pwa
 python -m http.server 5173</code></pre>
@@ -205,7 +208,7 @@ git remote add origin https://github.com/YOUR-USERNAME/ss-calc-pwa.git
 git push -u origin main</code></pre>
       <p>Then in GitHub: <strong>Settings → Pages → Deploy from a branch → main → /root → Save</strong>.</p>
       <h3>Save progress and continue later</h3>
-      <p>Use <strong>Save Progress</strong> at the top of the app to save the answers in this browser. Use <strong>Load Saved</strong> later on the same computer/browser to bring them back. <strong>Download Results</strong> saves a text report; it does not reload the form.</p>
+      <p>Use <strong>Save Progress</strong> at the top of the app to save the answers in this browser. Use <strong>Load Saved</strong> later on the same computer/browser to bring them back. <strong>Download Results</strong> saves an HTML report; it does not reload the form.</p>
     </details>
   </main>
 

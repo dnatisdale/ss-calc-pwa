@@ -15,7 +15,7 @@ const EARNINGS_LIMITS = {
 };
 
 let deferredPrompt = null;
-const STORAGE_KEY = 'ss-calc-pwa-progress-v18';
+const STORAGE_KEY = 'ss-calc-pwa-progress-v22';
 
 const KNOWN_BIRTHDAYS = {
   dan: '1963-07-05',
@@ -502,6 +502,30 @@ function buildHtmlReport() {
 </html>`;
 }
 
+function safeFilePart(value, fallback) {
+  const cleaned = String(value || '')
+    .trim()
+    .replace(/[^a-z0-9]+/gi, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40);
+  return cleaned || fallback;
+}
+
+function reportTimestampForFilename(date = new Date()) {
+  const pad = (n) => String(n).padStart(2, '0');
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hour = pad(date.getHours());
+  const minute = pad(date.getMinutes());
+  return `${year}-${month}-${day}_${hour}-${minute}`;
+}
+
+function buildReportFilename() {
+  const workerName = safeFilePart($('mainName')?.value, 'primary-worker');
+  return `ss-calc-pwa-${workerName}-${reportTimestampForFilename()}.html`;
+}
+
 function downloadResults() {
   const results = $('results');
   if (!results.innerHTML.trim()) {
@@ -515,13 +539,48 @@ function downloadResults() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'ss-calc-pwa-estimate.html';
+  a.download = buildReportFilename();
   document.body.appendChild(a);
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
 }
 
+
+
+function getShareUrl() {
+  const url = new URL(window.location.href);
+  url.hash = '';
+  return url.href;
+}
+
+async function shareApp() {
+  const shareData = {
+    title: 'SS Calc PWA',
+    text: 'Try this simple Social Security family planning calculator.',
+    url: getShareUrl()
+  };
+  const box = $('missingBox');
+  try {
+    if (navigator.share && (!navigator.canShare || navigator.canShare(shareData))) {
+      await navigator.share(shareData);
+      return;
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(shareData.url);
+      box.classList.remove('hidden');
+      box.classList.remove('danger');
+      box.classList.add('soft');
+      box.innerHTML = '<h3>App link copied</h3><p>The SS Calc PWA link was copied. You can paste it into a text, email, or message to a friend.</p>';
+      setTimeout(() => { box.classList.add('hidden'); box.classList.add('danger'); box.classList.remove('soft'); }, 4000);
+      return;
+    }
+    window.prompt('Copy this SS Calc PWA link:', shareData.url);
+  } catch (err) {
+    if (err && err.name === 'AbortError') return;
+    window.prompt('Copy this SS Calc PWA link:', shareData.url);
+  }
+}
 
 function getFormState() {
   const state = {};
@@ -594,6 +653,7 @@ function init() {
   $('printBtn').addEventListener('click', printResults);
   $('saveBtn').addEventListener('click', downloadResults);
   $('saveProgressBtn').addEventListener('click', saveProgress);
+  $('shareBtn').addEventListener('click', shareApp);
   $('loadProgressBtn').addEventListener('click', loadProgress);
   $('openAllBtn').addEventListener('click', () => document.querySelectorAll('details').forEach(d => d.open = true));
   $('clearMainBtn').addEventListener('click', clearMain);
